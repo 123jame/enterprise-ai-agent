@@ -14,6 +14,7 @@ class TraceEventType(str, Enum):
     RETRIEVAL = "retrieval"
     PLANNER = "planner"
     WORKFLOW = "workflow"
+    MULTI_AGENT = "multi_agent"
 
 
 def _new_event_id() -> str:
@@ -209,6 +210,29 @@ class WorkflowEvent(TraceEvent):
     plan_status: str = ""
 
     current_step_id: str = ""
+
+    success: bool = True
+
+    content_preview: str = ""
+
+
+@dataclass
+class MultiAgentEvent(TraceEvent):
+    """
+    Multi-Agent 协作事件。
+    """
+
+    action: str = ""
+
+    agent_name: str = ""
+
+    task_id: str = ""
+
+    task_input: str = ""
+
+    selected_agent: str = ""
+
+    message_type: str = ""
 
     success: bool = True
 

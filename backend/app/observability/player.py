@@ -1,6 +1,7 @@
 from app.core.logger import logger
 from app.observability.types import LLMEvent
 from app.observability.types import MemoryEvent
+from app.observability.types import MultiAgentEvent
 from app.observability.types import ObservationEvent
 from app.observability.types import PlannerEvent
 from app.observability.types import PromptEvent
@@ -135,6 +136,15 @@ class TracePlayer:
                 f"mode={event.workflow_mode} "
                 f"step={event.current_step_id} "
                 f"success={event.success}"
+            )
+
+        if isinstance(event, MultiAgentEvent):
+
+            return (
+                f"[{index}] MULTI_AGENT action={event.action} "
+                f"agent={event.agent_name} "
+                f"selected={event.selected_agent} "
+                f"task={event.task_id}"
             )
 
         return (

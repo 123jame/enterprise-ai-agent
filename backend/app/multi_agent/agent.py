@@ -48,3 +48,11 @@ class Agent(ABC):
         """
         返回 Agent 能力标签，供 Router 匹配。
         """
+
+    @property
+    def profile(self):
+        """
+        可选 AgentProfile，RoleAgent 等实现提供。
+        """
+
+        return None

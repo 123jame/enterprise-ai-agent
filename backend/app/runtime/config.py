@@ -68,6 +68,14 @@ class AgentConfig:
 
     exporter_type: str = "console"
 
+    enable_multi_agent: bool = False
+
+    router_type: str = "rule"
+
+    max_agents: int = 10
+
+    communication_mode: str = "direct"
+
     @classmethod
     def from_env(cls) -> "AgentConfig":
         """

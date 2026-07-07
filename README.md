@@ -18,7 +18,7 @@
 | **MCP** | MCP Client、Tool Adapter、Server Manager、Resource / Prompt |
 | **Planner + Workflow** | Plan-and-Execute、Sequential Workflow、Step 重试 / 跳过 |
 | **Observability** | Trace 收集、Metrics、Evaluation、Trace 回放 |
-| **Multi-Agent** | Agent 抽象接口、Adapter 适配（Task12 进行中） |
+| **Multi-Agent** | Agent 抽象、Registry、Router、Coordinator、MessageBus、SharedMemory |
 
 设计原则：**SOLID**、高内聚低耦合、组件可插拔、单 Agent 向后兼容。
 
@@ -201,6 +201,14 @@ config = AgentConfig(enable_mcp=True, mcp_servers=["local-mock"])
 # 启用 Plan-and-Execute
 config = AgentConfig(enable_planner=True, max_plan_steps=10)
 
+# 启用 Multi-Agent
+config = AgentConfig(
+    enable_multi_agent=True,
+    router_type="rule",       # rule | llm
+    max_agents=10,
+    communication_mode="bus", # direct | bus
+)
+
 # 启用可观测性
 config = AgentConfig(
     enable_trace=True,
@@ -223,6 +231,10 @@ agent = ChatAgent(config=config)
 | `enable_trace` | False | 启用 Trace 收集 |
 | `enable_metrics` | False | 启用执行指标统计 |
 | `enable_evaluation` | False | 启用规则评测 |
+| `enable_multi_agent` | False | 启用 Multi-Agent 协作 |
+| `router_type` | rule | Agent 路由策略 |
+| `max_agents` | 10 | 单次任务最多调度 Agent 数 |
+| `communication_mode` | direct | Agent 通信模式（direct / bus） |
 
 ---
 
@@ -257,16 +269,31 @@ print(agent.last_metrics)
 agent.replay_last_trace(verbose=True)
 ```
 
-### Multi-Agent 接口
+### Multi-Agent 东京旅行示例
+
+```bash
+cd backend
+python -m examples.travel_multi_agent          # 模板模式（无需 LLM）
+python -m examples.travel_multi_agent --llm   # 真实 LLM 调用
+```
 
 ```python
-from app.multi_agent import Agent, BaseAgentAdapter
-from app.agents.chat_agent import ChatAgent
+from app.multi_agent.factory import create_travel_coordinator
+from app.runtime.config import AgentConfig
 
-agent = ChatAgent()
-assert isinstance(agent, Agent)
-print(agent.get_capabilities())  # ['chat', 'tool_calling', ...]
+coordinator = create_travel_coordinator(
+    config=AgentConfig(enable_multi_agent=True),
+    use_llm=False,
+)
+
+result = coordinator.run(
+    session_id="demo",
+    user_input="帮我规划一次东京旅行",
+)
+print(result.content)
 ```
+
+流程：`Coordinator → Router → WeatherAgent / TravelAgent / HotelAgent → SummaryAgent → 最终答案`
 
 ---
 
@@ -290,7 +317,7 @@ Tool 通过 `ToolRegistry` 注册，支持扩展本地 Tool 与 MCP Tool。
 - [x] Task 9 — MCP
 - [x] Task 10 — Planner + Workflow
 - [x] Task 11 — Tracing + Evaluation
-- [ ] Task 12 — Multi-Agent Runtime（进行中）
+- [x] Task 12 — Multi-Agent Runtime
 
 ---
 

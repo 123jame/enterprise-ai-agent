@@ -131,6 +131,12 @@ class PromptBuilder:
         )
 
         messages.extend(
+            self._build_multi_agent_messages(
+                context,
+            )
+        )
+
+        messages.extend(
             self._build_plan_messages(
                 context,
                 completed_steps or [],
@@ -393,6 +399,79 @@ class PromptBuilder:
                 f"{knowledge_text}"
             ),
         )
+
+    def _build_multi_agent_messages(
+        self,
+        context: "AgentContext",
+    ) -> list[Message]:
+        """
+        注入 Agent Identity、Role、Current Task、Shared Context。
+        """
+
+        if not (
+            context.agent_name
+            or context.agent_role
+            or context.metadata.get("current_task")
+            or context.shared_context
+        ):
+
+            return []
+
+        sections: list[str] = []
+
+        if context.agent_name:
+
+            sections.append(
+                f"Agent Identity: {context.agent_name}"
+            )
+
+        if context.agent_role:
+
+            sections.append(
+                f"Agent Role: {context.agent_role}"
+            )
+
+        current_task = context.metadata.get(
+            "current_task",
+        )
+
+        if current_task:
+
+            sections.append(
+                f"Current Task: {current_task}"
+            )
+
+        root_goal = context.metadata.get(
+            "root_goal",
+        )
+
+        if root_goal:
+
+            sections.append(
+                f"Overall Goal: {root_goal}"
+            )
+
+        if context.shared_context:
+
+            sections.append("Shared Context from other agents:")
+
+            for key, value in context.shared_context.items():
+
+                preview = str(value)[:300]
+
+                sections.append(
+                    f"- {key}: {preview}"
+                )
+
+        return [
+            Message(
+                role="system",
+                content=(
+                    "Multi-Agent execution context:\n"
+                    + "\n".join(sections)
+                ),
+            )
+        ]
 
     def _build_plan_messages(
         self,

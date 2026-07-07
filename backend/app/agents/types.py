@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from dataclasses import field
 from typing import TYPE_CHECKING
+from typing import Any
 
 from app.memory.types import MemoryRecord
 
@@ -26,6 +27,18 @@ class AgentContext:
     plan: "Plan | None" = None
 
     current_step: "PlanStep | None" = None
+
+    metadata: dict[str, Any] = field(
+        default_factory=dict
+    )
+
+    agent_name: str = ""
+
+    agent_role: str = ""
+
+    shared_context: dict[str, Any] = field(
+        default_factory=dict
+    )
 
 
 @dataclass

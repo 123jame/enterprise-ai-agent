@@ -427,4 +427,8 @@ class ChatAgent(BaseAgent, Agent):
 
             capabilities.append("tracing")
 
+        if self.config.enable_multi_agent:
+
+            capabilities.append("multi_agent")
+
         return capabilities
