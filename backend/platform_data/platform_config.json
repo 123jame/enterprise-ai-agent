@@ -1,0 +1,33 @@
+{
+  "llm": {
+    "provider": "openai",
+    "model": "gpt-4o-mini",
+    "temperature": 0.7,
+    "max_tokens": 4096
+  },
+  "memory": {
+    "enabled": true,
+    "scope": "project"
+  },
+  "embedding": {
+    "provider": "openai",
+    "model": "text-embedding-3-small"
+  },
+  "workflow": {
+    "max_iterations": 10,
+    "enable_verification": true
+  },
+  "prompt": {
+    "enable_rag": false,
+    "enable_mcp": false
+  },
+  "git": {
+    "enabled": true,
+    "default_branch": "main",
+    "develop_branch": "develop"
+  },
+  "deployment": {
+    "enabled": true,
+    "mode": "local"
+  }
+}

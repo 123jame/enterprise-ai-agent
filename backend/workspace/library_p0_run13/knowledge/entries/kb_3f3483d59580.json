@@ -1,0 +1,19 @@
+{
+  "id": "kb_3f3483d59580",
+  "title": "ProductAgent completed successfully",
+  "category": "experience",
+  "content": "PRD 已生成并保存至 workspace\\library_p0_run13\\docs\\PRD.md\n\n# 产品需求文档 (PRD) — 图书管理系统\n\n## 1. 项目概述\n\n开发一套图书管理系统，实现图书的借阅、归还、读者管理以及查询统计等核心业务流程，提升图书管理效率与用户体验。系统采用 B/S 架构，后端基于 Python FastAPI 构建 RESTful API，前端提供简洁易用的 Web 界面。\n\n## 2. 用户角色\n\n| 角色 | 描述 | 主要职责 |\n|------|------|----------|\n| 管理员 | 系统管理人员 | 录入/编辑/下架图书；管理读者信息；查看统计数据；处理异常借还 |\n| 读者 | 图书借阅者 | 查询图书；借阅/归还图书；查看个人借阅记录 |\n\n## 3. 核心功能列表\n\n### 3.1 图书管理\n- **图书录入**：管理员新增图书，包括书名、作者、ISBN、出版社、出版年份、分类、库存数量等字段\n- **图书编辑**：管理员修改图书信息\n- **图书下架**：管理员将图书标记为下架状态，下架图书不可借阅\n- **图书查询",
+  "source_path": "",
+  "document_type": "markdown",
+  "tags": [
+    "success"
+  ],
+  "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+  "agent_name": "ProductAgent",
+  "created_at": "2026-07-17T08:07:24.060844Z",
+  "metadata": {
+    "experience_type": "success",
+    "outcome": "success",
+    "suggestions": []
+  }
+}

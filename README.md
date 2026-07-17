@@ -1,335 +1,116 @@
 # Enterprise AI Agent
 
-企业级 AI Agent 框架，基于 Python + FastAPI 构建，支持 ReAct、Plan-and-Execute、RAG、MCP、可观测性与 Multi-Agent 扩展。
+企业级 **AI 软件团队平台**：输入自然语言需求，自动完成 PRD、架构、后端、前端、测试、文档、Git 与部署的端到端交付。
 
-**仓库地址：** https://github.com/123jame/enterprise-ai-agent
+## 仓库说明
 
----
-
-## 特性
-
-| 模块 | 能力 |
+| 目录 | 说明 |
 |------|------|
-| **Memory** | 会话记忆加载与持久化 |
-| **Tool Framework** | 本地 Tool 注册、调用与 Schema 生成 |
-| **Agent Loop** | LLM ↔ Tool ReAct 循环 |
-| **Agent Runtime** | PromptBuilder、ObservationBuilder、AgentConfig、Tracer |
-| **RAG** | Embedding、VectorStore、Retriever、KnowledgeBase |
-| **MCP** | MCP Client、Tool Adapter、Server Manager、Resource / Prompt |
-| **Planner + Workflow** | Plan-and-Execute、Sequential Workflow、Step 重试 / 跳过 |
-| **Observability** | Trace 收集、Metrics、Evaluation、Trace 回放 |
-| **Multi-Agent** | Agent 抽象、Registry、Router、Coordinator、MessageBus、SharedMemory |
+| `backend/` | 平台后端（FastAPI）、Software Team 流水线、Dashboard API |
+| `frontend/` | Dashboard 前端（Vue3 + Vite + Element Plus） |
+| `backend/applications/software_team/` | 多 Agent 软件开发流水线核心 |
+| `backend/scripts/run_single_project.py` | 单项目流水线验证脚本 |
+| `backend/workspace/library_p0_run13/` | **演示样例**：AI 生成的图书管理系统（可运行） |
 
-设计原则：**SOLID**、高内聚低耦合、组件可插拔、单 Agent 向后兼容。
+**GitHub 仓库：** https://github.com/123jame/enterprise-ai-agent
 
----
+## 核心能力
 
-## 架构概览
-
-```
-User Request
-    ↓
-FastAPI (/api/v1/chat)
-    ↓
-ChatService → ChatAgent
-    ↓
-PromptBuilder（System / History / Memory / RAG / MCP / Plan）
-    ↓
-WorkflowExecutor
-    ├─ enable_planner=False → AgentExecutor（ReAct Loop）
-    └─ enable_planner=True  → Planner → Workflow → StepExecutor
-    ↓
-LLMClient ↔ ToolManager（本地 Tool + MCP Tool）
-    ↓
-AgentResult
-    ↓
-TraceCollector / Metrics / Evaluation（可选）
-```
-
----
-
-## 项目结构
-
-```
-enterprise-ai-agent/
-├── README.md
-├── .gitignore
-└── backend/
-    ├── main.py                 # 应用入口
-    ├── requirements.txt
-    ├── .env.example            # 环境变量模板（复制为 .env 使用）
-    └── app/
-        ├── agents/             # Agent 实现（ChatAgent、Factory、Registry）
-        ├── api/                # FastAPI 路由
-        ├── core/               # 配置与日志
-        ├── llm/                # LLM 客户端
-        ├── memory/             # 记忆管理
-        ├── tools/              # Tool 框架
-        ├── runtime/            # Agent Runtime（Prompt、Executor、Tracer）
-        │   └── plan/           # Planner + Workflow
-        ├── rag/                # RAG 检索增强
-        ├── mcp/                # MCP 协议集成
-        ├── observability/      # Trace / Metrics / Evaluation
-        ├── multi_agent/        # Multi-Agent 抽象（Task12）
-        ├── services/           # 业务服务层
-        ├── schemas/            # Pydantic 模型
-        └── prompts/            # System Prompt
-```
-
----
+- **多 Agent 协作**：Product → Architect → Backend → Frontend → QA → Documentation
+- **自动验证**：结构检查、pytest、前后端执行策略
+- **Git 工作流**：feature → develop → main 自动合并
+- **Dashboard**：Web 界面提交需求、查看流水线进度
+- **可演示交付**：Run13 图书系统后端 API 可现场完成借还书
 
 ## 快速开始
 
-### 环境要求
+### 1. 环境准备
 
 - Python 3.11+
-- 可用的 OpenAI 兼容 API（OpenAI / 第三方代理均可）
+- Node.js 18+（Dashboard 前端）
+- Git
+- LLM API（默认 DeepSeek，见 `backend/.env.example`）
 
-### 1. 克隆仓库
-
-```bash
-git clone https://github.com/123jame/enterprise-ai-agent.git
-cd enterprise-ai-agent/backend
-```
-
-### 2. 创建虚拟环境并安装依赖
-
-```bash
-python -m venv .venv
-
-# Windows
-.venv\Scripts\activate
-
-# macOS / Linux
-source .venv/bin/activate
-
+```powershell
+cd backend
+copy .env.example .env
+# 编辑 .env，填入 OPENAI_API_KEY、OPENAI_BASE_URL、MODEL_NAME
 pip install -r requirements.txt
 ```
 
-### 3. 配置环境变量
+### 2. 启动平台
 
-```bash
-# Windows
-copy .env.example .env
+**终端 A — 平台后端（端口 8001，勿用 --reload）**
 
-# macOS / Linux
-cp .env.example .env
-```
-
-编辑 `backend/.env`，填入你的 API Key 和模型配置：
-
-```env
-OPENAI_API_KEY=your-api-key-here
-OPENAI_BASE_URL=https://api.openai.com/v1
-MODEL_NAME=gpt-4o
-TEMPERATURE=0.7
-MAX_TOKENS=4096
-```
-
-> **注意：** `.env` 已被 `.gitignore` 忽略，请勿将 API Key 提交到 Git。
-
-### 4. 启动服务
-
-```bash
+```powershell
 cd backend
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8001
 ```
 
-### 5. 访问
+**终端 B — Dashboard 前端**
 
-| 地址 | 说明 |
-|------|------|
-| http://localhost:8000/health | 健康检查 |
-| http://localhost:8000/docs | Swagger API 文档 |
-| http://localhost:8000/api/v1/chat | 对话接口 |
-
----
-
-## API 使用
-
-### 对话
-
-**POST** `/api/v1/chat`
-
-```json
-{
-  "session_id": "user-001",
-  "message": "现在几点了？"
-}
+```powershell
+cd frontend
+npm install
+npm run dev
 ```
 
-响应：
+浏览器打开 Vite 提示的地址（通常 `http://localhost:5173`）。
 
-```json
-{
-  "success": true,
-  "model": "gpt-4o",
-  "answer": "当前时间是 ..."
-}
-```
+### 3. 运行流水线（命令行）
 
-### 健康检查
-
-**GET** `/health`
-
-```json
-{
-  "status": "ok",
-  "project": "Enterprise AI Agent"
-}
-```
-
----
-
-## 配置说明
-
-Runtime 行为通过 `AgentConfig` 控制，可在代码中按需启用：
-
-```python
-from app.runtime.config import AgentConfig
-from app.agents.chat_agent import ChatAgent
-
-# 默认：ReAct 单 Agent
-config = AgentConfig()
-
-# 启用 RAG
-config = AgentConfig(enable_rag=True, top_k=3)
-
-# 启用 MCP
-config = AgentConfig(enable_mcp=True, mcp_servers=["local-mock"])
-
-# 启用 Plan-and-Execute
-config = AgentConfig(enable_planner=True, max_plan_steps=10)
-
-# 启用 Multi-Agent
-config = AgentConfig(
-    enable_multi_agent=True,
-    router_type="rule",       # rule | llm
-    max_agents=10,
-    communication_mode="bus", # direct | bus
-)
-
-# 启用可观测性
-config = AgentConfig(
-    enable_trace=True,
-    enable_metrics=True,
-    enable_evaluation=True,
-    exporter_type="console",  # console | json | file | opentelemetry
-)
-
-agent = ChatAgent(config=config)
-```
-
-主要配置项：
-
-| 配置 | 默认值 | 说明 |
-|------|--------|------|
-| `max_iterations` | 5 | Agent Loop 最大 Tool 调用轮次 |
-| `enable_rag` | False | 启用 RAG 检索 |
-| `enable_mcp` | False | 启用 MCP 工具与资源 |
-| `enable_planner` | False | 启用 Plan-and-Execute |
-| `enable_trace` | False | 启用 Trace 收集 |
-| `enable_metrics` | False | 启用执行指标统计 |
-| `enable_evaluation` | False | 启用规则评测 |
-| `enable_multi_agent` | False | 启用 Multi-Agent 协作 |
-| `router_type` | rule | Agent 路由策略 |
-| `max_agents` | 10 | 单次任务最多调度 Agent 数 |
-| `communication_mode` | direct | Agent 通信模式（direct / bus） |
-
----
-
-## 代码示例
-
-### 直接调用 Agent
-
-```python
-from app.agents.chat_agent import ChatAgent
-from app.agents.types import AgentContext
-from app.runtime.config import AgentConfig
-
-agent = ChatAgent(config=AgentConfig())
-context = AgentContext(
-    session_id="demo-session",
-    user_message="你好，请介绍一下你自己",
-)
-result = agent.run(context)
-print(result.content)
-```
-
-### 回放 Trace（调试）
-
-```python
-agent = ChatAgent(config=AgentConfig(enable_trace=True))
-result = agent.run(context)
-
-# 查看指标
-print(agent.last_metrics)
-
-# 回放执行过程（不重新调用 LLM）
-agent.replay_last_trace(verbose=True)
-```
-
-### Multi-Agent 东京旅行示例
-
-```bash
+```powershell
 cd backend
-python -m examples.travel_multi_agent          # 模板模式（无需 LLM）
-python -m examples.travel_multi_agent --llm   # 真实 LLM 调用
+python scripts/run_single_project.py
 ```
 
-```python
-from app.multi_agent.factory import create_travel_coordinator
-from app.runtime.config import AgentConfig
+成功标志：`RESULT {"success": true, ...}`
 
-coordinator = create_travel_coordinator(
-    config=AgentConfig(enable_multi_agent=True),
-    use_llm=False,
-)
+### 4. 演示样例：图书管理系统
 
-result = coordinator.run(
-    session_id="demo",
-    user_input="帮我规划一次东京旅行",
-)
-print(result.content)
+详见 [DEMO.md](./DEMO.md)。
+
+```powershell
+cd backend/workspace/library_p0_run13
+pip install -r requirements.txt
+python -m uvicorn backend.main:app --reload --port 8000
 ```
 
-流程：`Coordinator → Router → WeatherAgent / TravelAgent / HotelAgent → SummaryAgent → 最终答案`
+- API 文档：http://localhost:8000/docs
+- 健康检查：http://localhost:8000/api/health
 
----
+## 流水线架构
 
-## 内置 Tool
+```
+用户需求
+  ↓
+EnterpriseCoordinator
+  ↓
+ProductAgent → ArchitectAgent → BackendAgent → FrontendAgent
+  → QAAgent → DocumentationAgent
+  ↓
+Git (feature → develop → main) + 部署评估
+  ↓
+backend/workspace/<项目名>/
+```
 
-| Tool | 说明 |
-|------|------|
-| `get_current_time` | 获取当前时间 |
+## 演示定位
 
-Tool 通过 `ToolRegistry` 注册，支持扩展本地 Tool 与 MCP Tool。
+当前版本适合 **「可演示、可验证的原型交付」**：
 
----
+- ✅ 平台自动生完整工程产物
+- ✅ 后端 API 可真实操作（借书、还书、统计）
+- ⚠️ 前端为骨架，生产环境需加权限、UI、运维
 
-## 开发路线图
+## 近期修复（P0）
 
-- [x] Task 4 — Memory
-- [x] Task 5 — Tool Framework
-- [x] Task 6 — Agent Loop
-- [x] Task 7 — Agent Runtime
-- [x] Task 8 — RAG
-- [x] Task 9 — MCP
-- [x] Task 10 — Planner + Workflow
-- [x] Task 11 — Tracing + Evaluation
-- [x] Task 12 — Multi-Agent Runtime
-
----
-
-## 技术栈
-
-- **Web 框架：** FastAPI + Uvicorn
-- **LLM：** OpenAI SDK（兼容 OpenAI API 的服务均可）
-- **配置：** Pydantic Settings + python-dotenv
-- **协议：** MCP（Model Context Protocol）
-
----
+- ProductAgent PRD 长度限制与 Tool Loop 优化
+- Dashboard 阶段映射与 delivery 误报修复
+- Git develop/main 分支自动创建
+- 前端静态项目识别、Windows npm 路径
+- QAAgent pytest 依赖安装与 tests 验证逻辑
+- DocumentationAgent README 路径与 pipeline 执行检查
 
 ## 许可证
 
-本项目仅供学习与内部开发使用。如需开源许可证，请自行添加 `LICENSE` 文件。
+Private / 内部项目（如需开源许可证请自行补充）。

@@ -42,3 +42,19 @@ htmlcov/
 
 # Cursor / local
 .cursor/
+
+# Node.js
+node_modules/
+frontend/dist/
+
+# SQLite / local DB
+*.db
+
+# AI workspace outputs (keep demo sample only)
+backend/workspace/*
+!backend/workspace/library_p0_run13/
+backend/workspace/**/.git/
+backend/workspace/**/.pytest_cache/
+
+# Platform runtime audit log
+backend/platform_data/audit.json

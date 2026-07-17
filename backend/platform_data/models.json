@@ -1,0 +1,47 @@
+[
+  {
+    "id": "model_362875705a",
+    "name": "OpenAI GPT-4o Mini",
+    "provider": "openai",
+    "model_id": "gpt-4o-mini",
+    "enabled": true,
+    "priority": 10,
+    "metadata": {}
+  },
+  {
+    "id": "model_589e483bcf",
+    "name": "OpenAI GPT-4o",
+    "provider": "openai",
+    "model_id": "gpt-4o",
+    "enabled": true,
+    "priority": 20,
+    "metadata": {}
+  },
+  {
+    "id": "model_6f9b8310af",
+    "name": "Claude Sonnet",
+    "provider": "claude",
+    "model_id": "claude-3-5-sonnet-20241022",
+    "enabled": true,
+    "priority": 30,
+    "metadata": {}
+  },
+  {
+    "id": "model_2146b0b36f",
+    "name": "Gemini Pro",
+    "provider": "gemini",
+    "model_id": "gemini-1.5-pro",
+    "enabled": true,
+    "priority": 40,
+    "metadata": {}
+  },
+  {
+    "id": "model_93e8b81d2a",
+    "name": "Local LLM",
+    "provider": "local",
+    "model_id": "local/default",
+    "enabled": true,
+    "priority": 100,
+    "metadata": {}
+  }
+]

@@ -133,6 +133,17 @@ class AgentTracer:
             )
         )
 
+    @staticmethod
+    def _safe_log_value(value, limit: int = 300) -> str:
+
+        text = str(value)
+
+        if len(text) > limit:
+
+            text = f"{text[:limit]}...(truncated)"
+
+        return text.encode("utf-8", errors="replace").decode("utf-8")
+
     def on_tool_call(
         self,
         tool_call: ToolCall,
@@ -146,7 +157,7 @@ class AgentTracer:
         logger.info(
             "Agent tool call: %s args=%s",
             tool_call.name,
-            tool_call.arguments,
+            self._safe_log_value(tool_call.arguments),
         )
 
         self._record(

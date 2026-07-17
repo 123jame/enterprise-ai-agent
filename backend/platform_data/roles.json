@@ -1,0 +1,29 @@
+[
+  {
+    "id": "role_a65255f818",
+    "name": "admin",
+    "permissions": [
+      "*"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "role_9e7eed3471",
+    "name": "developer",
+    "permissions": [
+      "project:write",
+      "workspace:read",
+      "agent:execute"
+    ],
+    "metadata": {}
+  },
+  {
+    "id": "role_382b73f528",
+    "name": "viewer",
+    "permissions": [
+      "project:read",
+      "workspace:read"
+    ],
+    "metadata": {}
+  }
+]

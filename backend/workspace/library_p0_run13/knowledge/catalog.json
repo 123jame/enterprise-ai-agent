@@ -1,0 +1,101 @@
+{
+  "kb_11ed107b1d2d": {
+    "id": "kb_11ed107b1d2d",
+    "title": "PRD.md",
+    "category": "prd",
+    "source_path": "docs\\PRD.md",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "ProductAgent",
+    "created_at": "2026-07-17T08:07:24.053337Z"
+  },
+  "kb_3f3483d59580": {
+    "id": "kb_3f3483d59580",
+    "title": "ProductAgent completed successfully",
+    "category": "experience",
+    "source_path": "",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "ProductAgent",
+    "created_at": "2026-07-17T08:07:24.060844Z"
+  },
+  "kb_dab169531459": {
+    "id": "kb_dab169531459",
+    "title": "Architecture.md",
+    "category": "architecture",
+    "source_path": "docs\\Architecture.md",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "ArchitectAgent",
+    "created_at": "2026-07-17T08:09:14.607813Z"
+  },
+  "kb_baf5e919a3a0": {
+    "id": "kb_baf5e919a3a0",
+    "title": "ArchitectAgent completed successfully",
+    "category": "experience",
+    "source_path": "",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "ArchitectAgent",
+    "created_at": "2026-07-17T08:09:14.616855Z"
+  },
+  "kb_926dc844e286": {
+    "id": "kb_926dc844e286",
+    "title": "main.py",
+    "category": "code_pattern",
+    "source_path": "backend\\main.py",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "BackendAgent",
+    "created_at": "2026-07-17T08:10:43.189869Z"
+  },
+  "kb_331d18990f85": {
+    "id": "kb_331d18990f85",
+    "title": "BackendAgent completed successfully",
+    "category": "experience",
+    "source_path": "",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "BackendAgent",
+    "created_at": "2026-07-17T08:10:43.202933Z"
+  },
+  "kb_830365f85c46": {
+    "id": "kb_830365f85c46",
+    "title": "FrontendAgent completed successfully",
+    "category": "experience",
+    "source_path": "",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "FrontendAgent",
+    "created_at": "2026-07-17T08:12:15.427013Z"
+  },
+  "kb_57eeadaeab61": {
+    "id": "kb_57eeadaeab61",
+    "title": "QAAgent completed successfully",
+    "category": "experience",
+    "source_path": "",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "QAAgent",
+    "created_at": "2026-07-17T08:13:14.726530Z"
+  },
+  "kb_e2132de688ba": {
+    "id": "kb_e2132de688ba",
+    "title": "README.md",
+    "category": "best_practice",
+    "source_path": "README.md",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "DocumentationAgent",
+    "created_at": "2026-07-17T08:13:58.972817Z"
+  },
+  "kb_52b4f9fa46fa": {
+    "id": "kb_52b4f9fa46fa",
+    "title": "DocumentationAgent completed successfully",
+    "category": "experience",
+    "source_path": "",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "DocumentationAgent",
+    "created_at": "2026-07-17T08:13:59.011072Z"
+  },
+  "kb_0a311b010664": {
+    "id": "kb_0a311b010664",
+    "title": "Project delivery completed",
+    "category": "experience",
+    "source_path": "",
+    "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+    "agent_name": "",
+    "created_at": "2026-07-17T08:14:05.553965Z"
+  }
+}

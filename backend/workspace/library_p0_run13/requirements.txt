@@ -1,0 +1,10 @@
+# Test dependencies for Library P0 Run13
+pytest>=7.4
+pytest-asyncio>=0.21
+httpx>=0.25
+fastapi>=0.104
+sqlalchemy>=2.0
+aiosqlite>=0.19
+pydantic>=2.0
+pydantic-settings>=2.0
+uvicorn[standard]>=0.24

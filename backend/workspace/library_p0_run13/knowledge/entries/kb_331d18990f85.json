@@ -1,0 +1,19 @@
+{
+  "id": "kb_331d18990f85",
+  "title": "BackendAgent completed successfully",
+  "category": "experience",
+  "content": "Backend 已通过模板回退保存至 workspace\\library_p0_run13\\backend",
+  "source_path": "",
+  "document_type": "markdown",
+  "tags": [
+    "success"
+  ],
+  "project_id": "8d1f7f87-792a-4f8f-84e8-87986ee51ccf",
+  "agent_name": "BackendAgent",
+  "created_at": "2026-07-17T08:10:43.202933Z",
+  "metadata": {
+    "experience_type": "success",
+    "outcome": "success",
+    "suggestions": []
+  }
+}

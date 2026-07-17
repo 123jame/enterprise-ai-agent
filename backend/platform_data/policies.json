@@ -1,0 +1,46 @@
+[
+  {
+    "id": "policy_38b77d138b",
+    "policy_type": "agent_policy",
+    "name": "agent_safety",
+    "rules": {
+      "max_iterations": 10,
+      "require_verification": true
+    },
+    "enabled": true
+  },
+  {
+    "id": "policy_6b34335b0a",
+    "policy_type": "prompt_policy",
+    "name": "prompt_safety",
+    "rules": {
+      "max_prompt_length": 32000,
+      "block_secrets": true
+    },
+    "enabled": true
+  },
+  {
+    "id": "policy_4445243595",
+    "policy_type": "tool_policy",
+    "name": "tool_safety",
+    "rules": {
+      "allowed_tools": [
+        "read_file",
+        "write_file",
+        "list_files",
+        "search"
+      ]
+    },
+    "enabled": true
+  },
+  {
+    "id": "policy_60f64e41d7",
+    "policy_type": "model_policy",
+    "name": "model_routing",
+    "rules": {
+      "prefer_provider": "openai",
+      "fallback": "local"
+    },
+    "enabled": true
+  }
+]

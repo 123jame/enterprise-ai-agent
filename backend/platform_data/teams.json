@@ -1,0 +1,18 @@
+[
+  {
+    "id": "team_0a4336cc99",
+    "name": "Software Team",
+    "team_type": "software_team",
+    "organization_id": "org_d60ba64536",
+    "agent_names": [
+      "ProductAgent",
+      "ArchitectAgent",
+      "BackendAgent",
+      "FrontendAgent",
+      "QAAgent",
+      "DocumentationAgent"
+    ],
+    "enabled": true,
+    "metadata": {}
+  }
+]
