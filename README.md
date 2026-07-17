@@ -14,6 +14,8 @@
 
 **GitHub 仓库：** https://github.com/123jame/enterprise-ai-agent
 
+**架构图：** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | **演示指南：** [DEMO.md](DEMO.md)
+
 ## 核心能力
 
 - **多 Agent 协作**：Product → Architect → Backend → Frontend → QA → Documentation
@@ -80,6 +82,8 @@ python -m uvicorn backend.main:app --reload --port 8000
 - 健康检查：http://localhost:8000/api/health
 
 ## 流水线架构
+
+详见 **[系统架构图 docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**（含 Mermaid 图，GitHub 可直接渲染）。
 
 ```
 用户需求
