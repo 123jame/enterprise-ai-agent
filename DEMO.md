@@ -2,6 +2,16 @@
 
 演示样例路径：`backend/workspace/library_p0_run13/`
 
+## 生成过程截图
+
+**PRD 自动生成**（ProductAgent 输出 `docs/PRD.md`）：
+
+![PRD 文档示例](docs/images/demo-prd.png)
+
+**流水线运行日志**（多 Agent 协作写入产物）：
+
+![流水线日志](docs/images/demo-pipeline-logs.png)
+
 ## 5 分钟演示流程
 
 ### 准备
