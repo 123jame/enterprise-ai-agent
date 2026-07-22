@@ -11,10 +11,11 @@
 | `backend/applications/software_team/` | 多 Agent 软件开发流水线核心 |
 | `backend/scripts/run_single_project.py` | 单项目流水线验证脚本 |
 | `backend/workspace/library_p0_run13/` | **演示样例**：AI 生成的图书管理系统（可运行） |
+| `backend/applications/embodied_demo/` | **Task13 演示**：具身智能 Agent（Vision + Robot + Policy） |
 
 **GitHub 仓库：** https://github.com/123jame/enterprise-ai-agent
 
-**架构图：** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | **演示指南：** [DEMO.md](DEMO.md)
+**架构图：** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | **演示指南：** [DEMO.md](DEMO.md) | **具身智能 Task13：** [docs/TASK13_EMBODIED.md](docs/TASK13_EMBODIED.md)
 
 ## 核心能力
 
@@ -23,6 +24,7 @@
 - **Git 工作流**：feature → develop → main 自动合并
 - **Dashboard**：Web 界面提交需求、查看流水线进度
 - **可演示交付**：Run13 图书系统后端 API 可现场完成借还书
+- **具身智能扩展（Task13）**：Vision / Robot / Observation / Policy，支持 `analyze_image` 与机器人 Tool
 
 ## 快速开始
 
@@ -80,6 +82,15 @@ python -m uvicorn backend.main:app --reload --port 8000
 
 - API 文档：http://localhost:8000/docs
 - 健康检查：http://localhost:8000/api/health
+
+### 5. 具身智能 Demo（Task13）
+
+详见 [docs/TASK13_EMBODIED.md](docs/TASK13_EMBODIED.md)。
+
+```powershell
+cd backend
+python -m applications.embodied_demo.demo
+```
 
 ## 流水线架构
 

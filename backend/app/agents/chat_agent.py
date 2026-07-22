@@ -137,6 +137,16 @@ class ChatAgent(BaseAgent, Agent):
             observation_builder or ObservationBuilder()
         )
 
+        if self.config.enable_embodied:
+
+            from app.embodied.embodied_observation_builder import (
+                EmbodiedObservationBuilder,
+            )
+
+            observation_builder = EmbodiedObservationBuilder(
+                fallback_builder=observation_builder,
+            )
+
         self.tool_message_builder = (
             tool_message_builder
             or ToolMessageBuilder(
@@ -430,5 +440,9 @@ class ChatAgent(BaseAgent, Agent):
         if self.config.enable_multi_agent:
 
             capabilities.append("multi_agent")
+
+        if self.config.enable_embodied:
+
+            capabilities.append("embodied")
 
         return capabilities

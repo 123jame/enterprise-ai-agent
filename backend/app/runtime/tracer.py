@@ -196,6 +196,35 @@ class AgentTracer:
             )
         )
 
+    def on_embodied_observation(
+        self,
+        observation,
+        *,
+        iteration: int = 0,
+    ) -> None:
+        """
+        记录具身智能 Observation。
+
+        在 Action -> Environment -> Observation 阶段触发。
+        """
+
+        logger.info(
+            "Embodied observation: iteration=%d type=%s content=%s",
+            iteration,
+            observation.type,
+            (observation.content or "")[:120],
+        )
+
+        self._record(
+            ObservationEvent(
+                event_type=TraceEventType.OBSERVATION,
+                timestamp=time.time(),
+                tool_call_id="",
+                tool_name=observation.source or observation.type,
+                content=observation.to_prompt_text(),
+            )
+        )
+
     def on_memory_load(
         self,
         session_id: str,

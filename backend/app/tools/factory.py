@@ -1,5 +1,7 @@
 from app.tools.registry import ToolRegistry
 from app.tools.time_tool import TimeTool
+from app.robot.tool_registrar import register_robot_tools
+from app.vision.tool_registrar import register_vision_tools
 
 
 class ToolFactory:
@@ -21,6 +23,10 @@ class ToolFactory:
             TimeTool()
 
         )
+
+        register_vision_tools()
+
+        register_robot_tools()
 
         cls._initialized = True
 

@@ -6,6 +6,7 @@ from typing import Any
 from app.memory.types import MemoryRecord
 
 if TYPE_CHECKING:
+    from app.embodied.types import Observation
     from app.runtime.plan.types import Plan
     from app.runtime.plan.types import PlanStep
 
@@ -52,3 +53,7 @@ class AgentResult:
     model: str
 
     content: str
+
+    observations: list["Observation"] = field(
+        default_factory=list,
+    )

@@ -76,6 +76,8 @@ class AgentConfig:
 
     communication_mode: str = "direct"
 
+    enable_embodied: bool = False
+
     @classmethod
     def from_env(cls) -> "AgentConfig":
         """

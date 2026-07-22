@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 import time
 
+from app.core.logger import logger
 from app.runtime.config import AgentConfig
 from app.runtime.error_handler import AgentErrorHandler
 from app.runtime.tool_message_builder import ToolMessageBuilder
@@ -13,6 +14,7 @@ from app.tools.types import ToolResult
 if TYPE_CHECKING:
     from app.agents.types import AgentContext
     from app.agents.types import AgentResult
+    from app.embodied.types import Observation
     from app.llm.client import LLMClient
     from app.llm.types import Message
 
@@ -41,6 +43,29 @@ class AgentExecutor:
         self._tool_manager = tool_manager
         self._error_handler = error_handler
         self._tracer = tracer
+        self._embodied_loop_helper = None
+
+        if self._config.enable_embodied:
+
+            from app.embodied.agent_loop import EmbodiedAgentLoopHelper
+            from app.embodied.embodied_observation_builder import (
+                EmbodiedObservationBuilder,
+            )
+
+            embodied_builder = EmbodiedObservationBuilder()
+
+            if isinstance(
+                tool_message_builder._observation_builder,
+                EmbodiedObservationBuilder,
+            ):
+
+                embodied_builder = (
+                    tool_message_builder._observation_builder
+                )
+
+            self._embodied_loop_helper = EmbodiedAgentLoopHelper(
+                observation_builder=embodied_builder,
+            )
 
     def run(
         self,
@@ -50,7 +75,17 @@ class AgentExecutor:
 
         from app.agents.types import AgentResult
 
-        for _ in range(self._config.max_iterations):
+        collected_observations: list[Observation] = []
+
+        for iteration in range(self._config.max_iterations):
+
+            if self._config.enable_embodied:
+
+                logger.info(
+                    "Embodied Agent Loop iteration %d/%d",
+                    iteration + 1,
+                    self._config.max_iterations,
+                )
 
             try:
 
@@ -96,6 +131,7 @@ class AgentExecutor:
                     success=True,
                     model=result.model,
                     content=result.content or "",
+                    observations=collected_observations,
                 )
 
                 self._tracer.on_final_answer(
@@ -107,6 +143,26 @@ class AgentExecutor:
             tool_results = self._execute_tool_calls(
                 result.tool_calls
             )
+
+            if self._embodied_loop_helper is not None:
+
+                round_observations = (
+                    self._embodied_loop_helper.collect_observations(
+                        result.tool_calls,
+                        tool_results,
+                    )
+                )
+
+                collected_observations.extend(
+                    round_observations,
+                )
+
+                for observation in round_observations:
+
+                    self._tracer.on_embodied_observation(
+                        observation,
+                        iteration=iteration + 1,
+                    )
 
             round_messages = (
                 self._tool_message_builder.build_tool_round(
@@ -133,6 +189,7 @@ class AgentExecutor:
                 "The agent exceeded the maximum number "
                 "of tool-calling iterations."
             ),
+            observations=collected_observations,
         )
 
         self._tracer.on_final_answer(
